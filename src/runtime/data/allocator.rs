@@ -42,19 +42,19 @@ impl Allocator {
         let mut length = 0;
         loop {
           // Loads value on cursor
-          let val = self.data.get_unchecked(*lvar.next.as_mut_ptr() as usize).load(Ordering::Relaxed);
+          let val = self.data.get_unchecked(*lvar.next.as_ptr() as usize).load(Ordering::Relaxed);
           // If it is empty, increment length; otherwise, reset it
           length = if val == 0 { length + 1 } else { 0 };
           // Moves the cursor forward
-          *lvar.next.as_mut_ptr() += 1;
+          *lvar.next.as_ptr() += 1;
           // If it is out of bounds, warp around
-          if *lvar.next.as_mut_ptr() >= *lvar.amax.as_mut_ptr() {
+          if *lvar.next.as_ptr() >= *lvar.amax.as_ptr() {
             length = 0;
-            *lvar.next.as_mut_ptr() = *lvar.amin.as_mut_ptr();
+            *lvar.next.as_ptr() = *lvar.amin.as_ptr();
           }
           // If length equals arity, allocate that space
           if length == arity {
-            return *lvar.next.as_mut_ptr() - length;
+            return *lvar.next.as_ptr() - length;
           }
         }
       }
