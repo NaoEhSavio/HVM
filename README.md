@@ -3,12 +3,12 @@ Higher-order Virtual Machine (HVM)
 
 **Higher-order Virtual Machine (HVM)** is a pure functional runtime that is **lazy**, **non-garbage-collected** and
 **massively parallel**. It is also **beta-optimal**, meaning that, for higher-order computations, it can, in
-some cases, be up to exponentially faster than alternatives, including Haskell's GHC.
+some cases, be exponentially (in the asymptotical sense) faster than alternatives, including Haskell's GHC.
 
 That is possible due to a new model of computation, the **Interaction Net**, which supersedes the **Turing Machine** and
 the **Lambda Calculus**. Previous implementations of this model have been inefficient in practice, however, a recent
 breakthrough has drastically improved its efficiency, resulting in the HVM. Despite being relatively new, it already
-beats mature compilers in many cases, and is set to scale towards uncharted levels of performance.
+beats mature compilers in some cases, and is being continuously improved.
 
 **Welcome to the massively parallel future of computers!**
 
@@ -270,7 +270,7 @@ More Information
 
 - To ask questions and **join our community**, check our [Discord Server](https://discord.gg/kindelia).
 
-- To **contact the author** directly, send an email to <taelin@kindelia.org>.
+- To **contact the author** directly, send an email to <taelin@higherorderco.org>.
 
 FAQ
 ===
@@ -322,10 +322,14 @@ book, up to page 40. As such, it doesn't support some λ-terms, such as:
 (λx.(x x) λf.λx.(f (f x)))
 ```
 
-It is, though, Turing complete, and covers a wide subset of the λ-calculus,
-including terms such as the Y-combinator, church encodings (including algorithms
-like addition, multiplication and exponentiation), as well as arbitrary
-datatypes (both native and scott encoded) and recursion.
+HVM is, though, Turing complete, so you could implement a full λ-calculus
+interpreter on it - that limitation only addresses built-in closures. Keep in
+mind many popular languages don't include the full λ-calculus closures either;
+Rust, for example, covers a very restricted subset, due to the borrow system.
+That said, HVM covers a wide class of λ-terms, including the the Y-combinator,
+church encodings (even algorithms like addition, multiplication and
+exponentiation), as well as arbitrary datatypes (both native and scott encoded)
+and recursion.
 
 ### Will HVM support the full λ-Calculus, or System-F?
 
@@ -418,10 +422,11 @@ there are multiple ways to alleviate, or solve, this problem. One approach would
 be to implement "safe pointers", also described on the book, which would reduce
 the cloning overhead and make some quadratic cases linear. But that wouldn't
 work for all cases. A complimentary approach would be to do linearity analysis,
-converting problematic quadratic programs in faster, linear versions.  Finally,
+converting problematic quadratic programs in faster, linear versions. Finally,
 in the worst case, we could add references just like Haskell, but that should be
 made with a lot of caution, in order not to break the assumptions made by the
-parallel execution engine.
+parallel execution engine. For a more in depth explanation, check [read comment
+on Hacker News](https://news.ycombinator.com/edit?id=35342297).
 
 ### Is HVM's optimality only relevant for weird, academic λ-encoded terms?
 
@@ -523,11 +528,6 @@ HVM is a prototype. Bugs are expected. Please, open an issue!
 ### I've used HVM in production and now my company is bankrupt.
 
 I quit.
-
-Disclaimers
-===========
-
-(Removed in favor of the FAQ above!)
 
 Related Work
 ============
